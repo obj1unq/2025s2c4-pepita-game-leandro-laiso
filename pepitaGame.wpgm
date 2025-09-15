@@ -1,5 +1,8 @@
 import wollok.game.*
 import pepita.*
+import direcciones.*
+import silvestre.*
+import comidas.*
 
 program pepitaGame {
 	game.title("Pepita") 	//Valor por defecto "Wollok Game"
@@ -8,7 +11,28 @@ program pepitaGame {
 	game.cellSize(50) 		//valor por defecto 50
 	//search assets in assets folder, for example, for the background
 	//Valor por defecto game.ground("ground.png")
-	
-	//game.addVisual(pepita)
+	game.boardGround("fondo.jpg")
+	game.addVisual(silvestre)
+	game.addVisual(manzana)
+	game.addVisual(alpiste)
+	game.addVisual(pepita)
+	game.onTick(800, "Gravedad", {pepita.perderAltura()})
+	keyboard.up().onPressDo( {pepita.mover(arriba)} )
+	keyboard.down().onPressDo( {pepita.mover(abajo)} )
+	keyboard.left().onPressDo( {pepita.mover(izquierda)} )
+	keyboard.right().onPressDo( {pepita.mover(derecha)} )
+	keyboard.c().onPressDo( {pepita.comerAca()} )
+
 	game.start()	
 }
+/*
+game.board(image) pone una imagen en cada celda
+game.boardGround(image) pone una imagen de fondo que ocupa todo el tablero
+game.addVisual(objeto) para agregar un objeto al tablero
+	- el objeto debe entender el mensaje position() para posicionarse en el tablero
+	- el objeto debe entender el mensaje text() para mostrar un texto
+	- mensaje image() para elegir una imagen que mostrar
+	- mensaje textColor() para elegir color del texto (en hexa)
+game.addVisualCharacter(objeto) para agregar un objeto que se pueda mover con el teclado (flechas)
+
+*/
