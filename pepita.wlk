@@ -1,22 +1,22 @@
 import direcciones.*
-import silvestre.*
+import extras.*
 
 object pepita {
-	var energia = 10000
+	var energia = 100
 	var property position = game.origin()
 	const predador = silvestre
-	const joulesPorKM = 9
+	const joulesPorKM = 3
 
-	method image() {
-		return self.estado()
-	}
+	method energia() = energia
+
+	method image() = self.estado()
 
 	method text() = "" + self.energia()
 
 	method textColor() = "FFFFFF"
 
 	method estado() {
-		return  if (self.esAtrapada() || not self.puedeVolar()) 
+		return  if (not self.puedeVolar()) 
 					{"pepita-gris.png"}
 				else 
 					{"pepita.png"}
@@ -25,6 +25,14 @@ object pepita {
 	method esAtrapada() = self.estaSobre(predador)
 
 	method estaSobre(algo) = position == algo.position()
+
+	method energiaNecesaria(kms) = joulesPorKM * kms
+
+	method puedeVolar() = energia >= self.energiaNecesaria(1) && not self.esAtrapada() 
+
+	method loQueHayAca() = game.uniqueCollider(self)
+
+	method puedeMover(direccion) = direccion.haySiguientePosicion(position)
 
 	method comer(comida) {
 		energia = energia + comida.energiaQueOtorga()
@@ -36,18 +44,10 @@ object pepita {
 		comida.desaparecer()
 	}
 
-	method loQueHayAca() = game.uniqueCollider(self)
-
 	method volar(kms) {
 		energia -= self.energiaNecesaria(1)
 	}
-
-	method energiaNecesaria(kms) = joulesPorKM * kms
 	
-	method puedeVolar() = energia >= self.energiaNecesaria(1) && not self.esAtrapada() 
-
-	method energia() = energia
-
 	method mover(direccion) {
 		if (not self.puedeVolar()) {
 			self.perder()
@@ -62,8 +62,6 @@ object pepita {
 			position = game.at(self.position().x(), self.position().y() - 1)
 		}
 	}
-
-	method puedeMover(direccion) = direccion.haySiguientePosicion(position)
 
 	method perder() = game.say(self, "XD")
 }

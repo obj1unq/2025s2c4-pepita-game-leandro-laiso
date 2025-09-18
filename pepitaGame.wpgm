@@ -1,7 +1,7 @@
 import wollok.game.*
 import pepita.*
 import direcciones.*
-import silvestre.*
+import extras.*
 import comidas.*
 
 program pepitaGame {
@@ -15,8 +15,11 @@ program pepitaGame {
 	game.addVisual(silvestre)
 	game.addVisual(manzana)
 	game.addVisual(alpiste)
+	game.addVisual(nido)
 	game.addVisual(pepita)
-	game.onTick(800, "Gravedad", {pepita.perderAltura()})
+
+	game.onTick(1000, "Gravedad", {pepita.perderAltura()})
+
 	keyboard.up().onPressDo( {pepita.mover(arriba)} )
 	keyboard.down().onPressDo( {pepita.mover(abajo)} )
 	keyboard.left().onPressDo( {pepita.mover(izquierda)} )
