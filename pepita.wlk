@@ -34,11 +34,13 @@ object pepita {
 	}
 	
 	method mover(direccion) {
-		if (not self.puedeVolar()) {
-			self.perder()
-		} else if (self.puedeMover(direccion)) {
+		if (self.puedeVolar() && self.puedeMover(direccion)) {
 			position = direccion.siguientePosicion(position)
 			self.volar(1)
+		}
+
+		if (not self.puedeVolar()) {
+			self.perder()
 		}
 	}
 
@@ -52,6 +54,8 @@ object pepita {
 		estado = victoriosa
 		game.say(self, "GANASTE")
 		game.removeTickEvent("Gravedad")
+		game.removeVisual(self)
+		game.removeVisual(silvestre)
 	}
 
 	method perder() {
