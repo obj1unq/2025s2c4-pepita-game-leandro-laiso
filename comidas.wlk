@@ -21,6 +21,11 @@ object manzana {
 		game.removeVisual(self)
 	}
 
+	method colisionar(algo) {
+		algo.comer(self)
+		self.desaparecer()
+	}
+
 }
 
 object alpiste {
@@ -35,6 +40,11 @@ object alpiste {
 
 	method desaparecer() {
 		game.removeVisual(self)
+	}
+
+	method colisionar(algo) {
+		algo.comer(self)
+		self.desaparecer()
 	}
 }
 

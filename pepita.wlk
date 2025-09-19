@@ -4,8 +4,12 @@ import extras.*
 object pepita {
 	var energia = 100
 	var property position = game.origin()
-	const predador = silvestre
 	const joulesPorKM = 3
+	
+	var property estado = normal
+	const normal = "pepita.png"
+	const inmovilizada = "pepita-gris.png"
+	const victoriosa = "pepita-grande.png"
 
 	method energia() = energia
 
@@ -15,33 +19,14 @@ object pepita {
 
 	method textColor() = "FFFFFF"
 
-	method estado() {
-		return  if (not self.puedeVolar()) 
-					{"pepita-gris.png"}
-				else 
-					{"pepita.png"}
-	}
-
-	method esAtrapada() = self.estaSobre(predador)
-
-	method estaSobre(algo) = position == algo.position()
-
 	method energiaNecesaria(kms) = joulesPorKM * kms
 
-	method puedeVolar() = energia >= self.energiaNecesaria(1) && not self.esAtrapada() 
-
-	method loQueHayAca() = game.uniqueCollider(self)
+	method puedeVolar() = energia >= self.energiaNecesaria(1) && estado != inmovilizada
 
 	method puedeMover(direccion) = direccion.haySiguientePosicion(position)
 
 	method comer(comida) {
 		energia = energia + comida.energiaQueOtorga()
-	}
-
-	method comerAca() {
-		const comida = self.loQueHayAca()
-		self.comer(comida)
-		comida.desaparecer()
 	}
 
 	method volar(kms) {
@@ -63,7 +48,17 @@ object pepita {
 		}
 	}
 
-	method perder() = game.say(self, "XD")
+	method ganar() {
+		estado = victoriosa
+		game.say(self, "GANASTE")
+		game.removeTickEvent("Gravedad")
+	}
+
+	method perder() {
+		estado = inmovilizada
+		game.say(self, "PERDISTE")
+		game.removeTickEvent("Gravedad")
+	} 
 }
 
 

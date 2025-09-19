@@ -20,11 +20,14 @@ program pepitaGame {
 
 	game.onTick(1000, "Gravedad", {pepita.perderAltura()})
 
-	keyboard.up().onPressDo( {pepita.mover(arriba)} )
-	keyboard.down().onPressDo( {pepita.mover(abajo)} )
-	keyboard.left().onPressDo( {pepita.mover(izquierda)} )
-	keyboard.right().onPressDo( {pepita.mover(derecha)} )
-	keyboard.c().onPressDo( {pepita.comerAca()} )
+	// Movimiento de Pepita
+	keyboard.up().onPressDo {pepita.mover(arriba)}
+	keyboard.down().onPressDo {pepita.mover(abajo)}
+	keyboard.left().onPressDo {pepita.mover(izquierda)}
+	keyboard.right().onPressDo {pepita.mover(derecha)}
+
+	// Colisiones de Pepita
+	game.onCollideDo(pepita, {algo => algo.colisionar(pepita)})
 
 	game.start()	
 }
